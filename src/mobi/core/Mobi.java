@@ -166,7 +166,49 @@ public class Mobi implements Serializable{
 		return relations;
 	}
 
+	public List<Relation> getAllClassCompositionRelations(Class mobiClass){
+		List<Relation> relations = new ArrayList<Relation>();
+		
+		for (Relation relation : this.getAllCompositionRelations().values()) {
+			if ((mobiClass.getUri().equals(relation.getClassA().getUri())) || (mobiClass.getUri().equals(relation.getClassB().getUri()))){
+				relations.add(relation);
+			}
+		}
+		return relations;
+	}
 	
+	public List<Relation> getAllClassSymmetricRelations(Class mobiClass){
+		List<Relation> relations = new ArrayList<Relation>();
+		
+		for (Relation relation : this.getAllSymmetricRelations().values()) {
+			if ((mobiClass.getUri().equals(relation.getClassA().getUri())) || (mobiClass.getUri().equals(relation.getClassB().getUri()))){
+				relations.add(relation);
+			}
+		}
+		return relations;
+	}
+	
+	public List<Relation> getAllClassEquivalenceRelations(Class mobiClass){
+		List<Relation> relations = new ArrayList<Relation>();
+		
+		for (Relation relation : this.getAllEquivalenceRelations().values()) {
+			if ((mobiClass.getUri().equals(relation.getClassA().getUri())) || (mobiClass.getUri().equals(relation.getClassB().getUri()))){
+				relations.add(relation);
+			}
+		}
+		return relations;
+	}
+	
+	public List<Relation> getAllClassInheritanceRelations(Class mobiClass){
+		List<Relation> relations = new ArrayList<Relation>();
+		
+		for (Relation relation : this.getAllInheritanceRelations().values()) {
+			if ((mobiClass.getUri().equals(relation.getClassA().getUri())) || (mobiClass.getUri().equals(relation.getClassB().getUri()))){
+				relations.add(relation);
+			}
+		}
+		return relations;
+	}
 	
 	public HashMap<String, CompositionRelation> getAllCompositionRelations() {
 		return this.conceptManager.getAllCompositionRelations();
