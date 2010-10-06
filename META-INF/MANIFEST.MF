@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Created-By: 1.5.0 (Sun Microsystems Inc.)
+Name: mobi
+Specification-Title: Mobi Framework
+Specification-Version: 1.0
+Specification-Vendor: Mobi Team
+Implementation-Title: mobi.core 
+Implementation-Version: 0.0.5
+Implementation-Vendor: Mobi Team
+
