@@ -46,6 +46,9 @@ public class Mobi implements Serializable{
 	 */
 	
 	public void addConcept(Concept concept) {
+		if (concept.getUri() != null){
+			new ExceptionURI("Invalid URI name. Maybe it is null?");
+		}
 		this.conceptManager.addConcept(concept);
 	}
 

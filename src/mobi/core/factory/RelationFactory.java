@@ -130,7 +130,7 @@ public class RelationFactory implements Serializable {
 	}
 	
 	private Relation copyRelationInfo(Relation from, Relation to){
-		
+		to.setUri(from.getUri());
 		to.setCardinalityA(from.getCardinalityA());
 		to.setCardinalityB(from.getCardinalityB());
 		to.setClassA(from.getClassA());
