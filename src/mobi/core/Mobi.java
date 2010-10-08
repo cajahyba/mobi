@@ -85,15 +85,15 @@ public class Mobi implements Serializable{
 	}
 	
 	/*Method of calling for return the name object property from object property MOBI*/
-	public String getNameObjectProperty(String nameMobiObjectProperty, Class classA, Class classB)
+	public String getPropertyName(String nameMobiObjectProperty, Class classA, Class classB)
 	{
-		return this.conceptManager.getNameObjectProperty(nameMobiObjectProperty, classA, classB);
+		return this.conceptManager.getPropertyName(nameMobiObjectProperty, classA, classB);
 	}
 	
 	/*Method of calling for return the name of inverse object property from object property*/
-	public String getNameInversePropertyFromObjectProperty(String nameObjectProperty)
+	public String getInversePropertyName(String nameObjectProperty)
 	{
-		return this.conceptManager.getNameInversePropertyFromObjectProperty(nameObjectProperty);
+		return this.conceptManager.getInversePropertyName(nameObjectProperty);
 	}
 
 	/* ***************************************

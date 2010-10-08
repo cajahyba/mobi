@@ -23,7 +23,7 @@ public class TesteMOBIEleicao {
 		Class cPartido   = new Class("Partido");
 		Class cPessoa 	 = new Class("Pessoa");
 		
-		Instance iPrefeitoPinheiro = new Instance("Pinheiro",cPessoa);
+		Instance iPrefeitoPinheiro = new Instance("Pinheiro", cPessoa);
 		Instance iViceLidice       = new Instance("Lidice", null);
 		Instance iVereadorA        = new Instance("VereadorA");
 		Instance iPrefeitoTeste    = new Instance("PrefeitoTeste");

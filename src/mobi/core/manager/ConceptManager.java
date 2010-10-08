@@ -484,33 +484,30 @@ public class ConceptManager implements Serializable {
 		return false;
 	}
 	
-	public Boolean hasOrphans(Relation relation){
-		return false;
-	}
-	
+
 	/*Method for return the name object property from object property MOBI*/
-	public String getNameObjectProperty(String nameMobiObjectProperty, Class classA, Class classB)
+	public String getPropertyName(String nameMobiObjectProperty, Class classA, Class classB)
 	{
 	//	int quantity = nameMobiObjectProperty.length() - (classA.getUri().length() + classB.getUri().length() + 2 );
 	//	return nameMobiObjectProperty.substring(classA.getUri().length() + 1, classA.getUri().length() + 1 + quantity);
 		return nameMobiObjectProperty;
 	}
 	
-	/*Method for return the name of inverse object property from object property*/
-	public String getNameInversePropertyFromObjectProperty(String nameObjectProperty)
+	/* Method for return the name of inverse object property from object property */
+	public String getInversePropertyName(String nameObjectProperty)
 	{
 		for(CompositionRelation cr : this.allCompositionRelations.values())
 		{
 			if (cr.getNameA() != null && 
-				this.getNameObjectProperty(cr.getNameA(), cr.getClassA(), cr.getClassB()).equals(nameObjectProperty)
+				this.getPropertyName(cr.getNameA(), cr.getClassA(), cr.getClassB()).equals(nameObjectProperty)
 				&& cr.getNameB() != null
 			)
-				return this.getNameObjectProperty(cr.getNameB(), cr.getClassB(), cr.getClassA());
+				return this.getPropertyName(cr.getNameB(), cr.getClassB(), cr.getClassA());
 			
 			if (cr.getNameB() != null &&
-				this.getNameObjectProperty(cr.getNameB(), cr.getClassB(), cr.getClassA()).equals(nameObjectProperty)
+				this.getPropertyName(cr.getNameB(), cr.getClassB(), cr.getClassA()).equals(nameObjectProperty)
 			)
-				return this.getNameObjectProperty(cr.getNameA(), cr.getClassA(), cr.getClassB());
+				return this.getPropertyName(cr.getNameA(), cr.getClassA(), cr.getClassB());
 		}
 		
 		return null;

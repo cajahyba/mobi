@@ -97,7 +97,7 @@ public class TesteMOBIPessoa {
 
 			String nameObjectProperty = "temFilho";
 			
-			String nameInverseProperty = mobi.getNameInversePropertyFromObjectProperty(nameObjectProperty);
+			String nameInverseProperty = mobi.getInversePropertyName(nameObjectProperty);
 			if (nameInverseProperty == null)
 				nameInverseProperty = "e_Filho_de";
 			

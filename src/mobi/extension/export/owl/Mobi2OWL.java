@@ -188,13 +188,13 @@ public class Mobi2OWL {
 			
 			for(SymmetricRelation sr: this.mobi.getAllSymmetricRelations().values())
 			{
-				if (this.mobi.getNameObjectProperty(sr.getName(), sr.getClassA(), sr.getClassB()).
-						equals(this.mobi.getNameObjectProperty(cr.getNameA(), cr.getClassA(), cr.getClassB())))
-					throw new ExceptionSymmetricRelation("Não foi possível gerar o arquivo OWL, pois já existe uma relação de simetria com o nome: " + this.mobi.getNameObjectProperty(cr.getNameA(), cr.getClassA(), cr.getClassB()) + " para esta relação de composição.");
+				if (this.mobi.getPropertyName(sr.getName(), sr.getClassA(), sr.getClassB()).
+						equals(this.mobi.getPropertyName(cr.getNameA(), cr.getClassA(), cr.getClassB())))
+					throw new ExceptionSymmetricRelation("Não foi possível gerar o arquivo OWL, pois já existe uma relação de simetria com o nome: " + this.mobi.getPropertyName(cr.getNameA(), cr.getClassA(), cr.getClassB()) + " para esta relação de composição.");
 				
-				if (cr.getNameB() != null && this.mobi.getNameObjectProperty(cr.getNameB(), cr.getClassB(), cr.getClassA()).
-							equals(this.mobi.getNameObjectProperty(sr.getName(), sr.getClassA(), sr.getClassB())))
-					throw new ExceptionSymmetricRelation("Não foi possível gerar o arquivo OWL, pois já existe uma relação de simetria com o nome: " + this.mobi.getNameObjectProperty(cr.getNameB(), cr.getClassB(), cr.getClassA()) + " para esta relação de composição.");
+				if (cr.getNameB() != null && this.mobi.getPropertyName(cr.getNameB(), cr.getClassB(), cr.getClassA()).
+							equals(this.mobi.getPropertyName(sr.getName(), sr.getClassA(), sr.getClassB())))
+					throw new ExceptionSymmetricRelation("Não foi possível gerar o arquivo OWL, pois já existe uma relação de simetria com o nome: " + this.mobi.getPropertyName(cr.getNameB(), cr.getClassB(), cr.getClassA()) + " para esta relação de composição.");
 			}
 			
 			OntClass classA = this.createJenaClass(cr.getClassA());
@@ -204,7 +204,7 @@ public class Mobi2OWL {
 			String nameJenaObjectPropertyA = null, nameJenaObjectPropertyB = null;
 			
 			if (cr.getNameA() != null) {
-				nameJenaObjectPropertyA = this.mobi.getNameObjectProperty(cr.getNameA(), cr.getClassA() , cr.getClassB());
+				nameJenaObjectPropertyA = this.mobi.getPropertyName(cr.getNameA(), cr.getClassA() , cr.getClassB());
 
 				objectPropertyA = this.jena.createObjectProperty(this.ontologyPrefix + nameJenaObjectPropertyA, false);
 				
@@ -231,10 +231,10 @@ public class Mobi2OWL {
 			}
 
 			if (cr.getNameB() != null) {
-				nameJenaObjectPropertyB = this.mobi.getNameObjectProperty(cr.getNameB(), cr.getClassB() , cr.getClassA());
+				nameJenaObjectPropertyB = this.mobi.getPropertyName(cr.getNameB(), cr.getClassB() , cr.getClassA());
 								
-				String nameInversePropertyA = this.mobi.getNameInversePropertyFromObjectProperty(nameJenaObjectPropertyB);
-				String nameInversePropertyB = this.mobi.getNameInversePropertyFromObjectProperty(nameJenaObjectPropertyA);
+				String nameInversePropertyA = this.mobi.getInversePropertyName(nameJenaObjectPropertyB);
+				String nameInversePropertyB = this.mobi.getInversePropertyName(nameJenaObjectPropertyA);
 				
 				if (!nameInversePropertyA.equals(nameJenaObjectPropertyA))
 					throw new ExceptionInverseRelation("Não foi possível gerar o arquivo OWL, pois o inverso da propriedade '" + nameJenaObjectPropertyB + "' é a propriedade '" + nameInversePropertyA + "', desta maneira, a propriedade '" + nameJenaObjectPropertyA + "' não pode ser atribuída como inversa desta.");
@@ -320,7 +320,7 @@ public class Mobi2OWL {
 			}
 		}
 		
-		this.TryConvertObjectPropertysToFunctionalOrInverseFunctional(relationsPropertys, true);
+		this.convertToFunctionalOrInverseFunctionalProperty(relationsPropertys, true);
 	}
 	
 	private OntClass getJenaDomainsObjectProperty(String nameJenaObjectProperty, boolean isCompositionRelation)
@@ -334,12 +334,12 @@ public class Mobi2OWL {
 		
 		if (isCompositionRelation) {
 			for (CompositionRelation c : this.mobi.getAllCompositionRelations().values()) {
-				if (this.mobi.getNameObjectProperty(c.getNameA(),c.getClassA(), c.getClassB()).equals(nameJenaObjectProperty)
+				if (this.mobi.getPropertyName(c.getNameA(),c.getClassA(), c.getClassB()).equals(nameJenaObjectProperty)
 						&& !hashDomains.containsKey(c.getClassA().getUri()))
 					hashDomains.put(c.getClassA().getUri(), c.getClassA());
 
 				if (c.getNameB() != null
-						&& this.mobi.getNameObjectProperty(c.getNameB(), c.getClassB(), c.getClassA()).equals(nameJenaObjectProperty)
+						&& this.mobi.getPropertyName(c.getNameB(), c.getClassB(), c.getClassA()).equals(nameJenaObjectProperty)
 						&& !hashDomains.containsKey(c.getClassB().getUri()))
 					hashDomains.put(c.getClassB().getUri(), c.getClassB());
 			}
@@ -347,7 +347,7 @@ public class Mobi2OWL {
 		{
 			for (SymmetricRelation s: this.mobi.getAllSymmetricRelations().values())
 			{
-				if (this.mobi.getNameObjectProperty(s.getName(), s.getClassA(),s.getClassB()).equals(nameJenaObjectProperty)
+				if (this.mobi.getPropertyName(s.getName(), s.getClassA(),s.getClassB()).equals(nameJenaObjectProperty)
 				 && !hashDomains.containsKey(s.getClassA().getUri()))
 					hashDomains.put(s.getClassA().getUri(), s.getClassA());
 			}
@@ -367,12 +367,12 @@ public class Mobi2OWL {
 		
 		if (isCompositionRelation) {
 			for (CompositionRelation c : this.mobi.getAllCompositionRelations().values()) {
-				if (this.mobi.getNameObjectProperty(c.getNameA(), c.getClassA(), c.getClassB()).equals(nameJenaObjectProperty)
+				if (this.mobi.getPropertyName(c.getNameA(), c.getClassA(), c.getClassB()).equals(nameJenaObjectProperty)
 						&& !hashRanges.containsKey(c.getClassB().getUri()))
 					hashRanges.put(c.getClassB().getUri(), c.getClassB());
 
 				if (c.getNameB() != null
-						&& this.mobi.getNameObjectProperty(c.getNameB(), c.getClassB(), c.getClassA()).equals(nameJenaObjectProperty)
+						&& this.mobi.getPropertyName(c.getNameB(), c.getClassB(), c.getClassA()).equals(nameJenaObjectProperty)
 						&& !hashRanges.containsKey(c.getClassA().getUri()))
 					hashRanges.put(c.getClassA().getUri(), c.getClassA());
 			}
@@ -380,7 +380,7 @@ public class Mobi2OWL {
 		{
 			for (SymmetricRelation s: this.mobi.getAllSymmetricRelations().values())
 			{
-				if (this.mobi.getNameObjectProperty(s.getName(), s.getClassA(),s.getClassB()).equals(nameJenaObjectProperty)
+				if (this.mobi.getPropertyName(s.getName(), s.getClassA(),s.getClassB()).equals(nameJenaObjectProperty)
 				 && !hashRanges.containsKey(s.getClassB().getUri()))
 					hashRanges.put(s.getClassB().getUri(), s.getClassB());
 			}
@@ -427,14 +427,14 @@ public class Mobi2OWL {
 		
 		for (SymmetricRelation symmetricRelation : this.mobi.getAllSymmetricRelations().values()) {
 			
-			String nameJenaObjectProperty = this.mobi.getNameObjectProperty(symmetricRelation.getName(), symmetricRelation.getClassA() , symmetricRelation.getClassB());
+			String nameJenaObjectProperty = this.mobi.getPropertyName(symmetricRelation.getName(), symmetricRelation.getClassA() , symmetricRelation.getClassB());
 			
 			for(CompositionRelation cr: this.mobi.getAllCompositionRelations().values())
 			{
-				if ((this.mobi.getNameObjectProperty(cr.getNameA(), cr.getClassA(), cr.getClassB()).equals(nameJenaObjectProperty))
-					|| (cr.getNameB() != null && this.mobi.getNameObjectProperty(cr.getNameB(), cr.getClassB(), cr.getClassA()).equals(nameJenaObjectProperty))
+				if ((this.mobi.getPropertyName(cr.getNameA(), cr.getClassA(), cr.getClassB()).equals(nameJenaObjectProperty))
+					|| (cr.getNameB() != null && this.mobi.getPropertyName(cr.getNameB(), cr.getClassB(), cr.getClassA()).equals(nameJenaObjectProperty))
 				)
-					throw new ExceptionSymmetricRelation("Não foi possível gerar o arquivo OWL, pois já existe uma relação de composição com o nome: " + nameJenaObjectProperty + " para esta relação de simetria.");
+					throw new ExceptionSymmetricRelation("Could not create OWL file. There is another composition relation with the name: " + nameJenaObjectProperty + " for this symmetric relation.");
 			}
 			
 			OntClass classeA = this.createJenaClass(symmetricRelation.getClassA());
@@ -532,26 +532,26 @@ public class Mobi2OWL {
 			}
 		}
 		
-		this.TryConvertObjectPropertysToFunctionalOrInverseFunctional(relationsPropertys, false);
+		this.convertToFunctionalOrInverseFunctionalProperty(relationsPropertys, false);
 	}
 	
-	private void TryConvertObjectPropertysToFunctionalOrInverseFunctional(HashMap<String, HashMap<String, HashMap<String, Integer>>> objectProperts, boolean isCompositionRelations)
+	private void convertToFunctionalOrInverseFunctionalProperty(HashMap<String, HashMap<String, HashMap<String, Integer>>> objectProperts, boolean isCompositionRelations)
 	{
 		Set<String> keysPropertys = objectProperts.keySet();
 		for(String keyProperty: keysPropertys)
 		{
 			ObjectProperty objectProperty = this.jena.createObjectProperty(this.ontologyPrefix + keyProperty, false);
 			
-			boolean sideAFunctional = this.ConvertObjectPropertyToFunctional(keyProperty,objectProperts);
+			boolean sideAFunctional = this.convertObjectPropertyToFunctional(keyProperty,objectProperts);
 			
 			if (sideAFunctional)
 				objectProperty.convertToFunctionalProperty();
 			 
 			if (isCompositionRelations)
 			{
-				String nameInverseProperty = this.mobi.getNameInversePropertyFromObjectProperty(keyProperty);
+				String nameInverseProperty = this.mobi.getInversePropertyName(keyProperty);
 			
-				if (nameInverseProperty != null && this.ConvertObjectPropertyToFunctional(nameInverseProperty, objectProperts))
+				if (nameInverseProperty != null && this.convertObjectPropertyToFunctional(nameInverseProperty, objectProperts))
 					objectProperty.convertToInverseFunctionalProperty();
 			}else
 			{
@@ -561,7 +561,7 @@ public class Mobi2OWL {
 		}
 	}
 	
-	private boolean ConvertObjectPropertyToFunctional(String nameProperty, HashMap<String, HashMap<String, HashMap<String, Integer>>> listSearch)
+	private boolean convertObjectPropertyToFunctional(String nameProperty, HashMap<String, HashMap<String, HashMap<String, Integer>>> listSearch)
 	{
 		HashMap<String, HashMap<String, Integer>> h = listSearch.get(nameProperty);
 		Set<String> keysClass = h.keySet();

@@ -94,7 +94,7 @@ public class TesteMOBIAmericaDoSul {
 			
 			mobi.addConcept(rTemCapital);
 			
-			String inverse = mobi.getNameInversePropertyFromObjectProperty("temCapital");
+			String inverse = mobi.getInversePropertyName("temCapital");
 			if (inverse == null)
 				inverse = "desgraca";
 			
